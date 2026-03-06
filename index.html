@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Eksempel på brug af DAR search UI</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        line-height: 1.5;
+        margin: 1rem;
+        padding: 0;
+        color: black;
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: center;
+        background-color: white;
+        gap: 1rem;
+      }
+      h1,
+      h2 {
+        color: black;
+      }
+      h2 {
+        margin: 2rem 0 0;
+      }
+    </style>
+    <link rel="stylesheet" href="./dawa-autocomplete.css" />
+    <script src="./dawa-autocomplete.iife.js"></script>
+  </head>
+  <body>
+    <h1>Adressevælger demo</h1>
+
+    <h2>CDN version</h2>
+
+    <!-- HTML -->
+    <div class="dawa-autocomplete-container">
+      <input type="search" id="demoCDN" />
+    </div>
+
+    <!-- Javascript -->
+    <script>
+      dawaAutocomplete.dawaAutocomplete(document.getElementById("demoCDN"), {
+        token: "demo-3KCVX33CKZ",
+        select: function (selected) {
+          console.log("Selected address:", selected);
+        },
+      });
+    </script>
+
+    <h2>ES module version</h2>
+
+    <!-- HTML -->
+    <div class="dawa-autocomplete-container">
+      <input type="search" id="demoES" />
+    </div>
+
+    <!-- Javascript using -->
+    <script type="module">
+      import dawaAutocomplete2 from "./dawa-autocomplete.esm.js";
+      var inputElm = document.getElementById("demoES");
+      var component = dawaAutocomplete2.dawaAutocomplete(inputElm, {
+        token: "demo-3KCVX33CKZ",
+        select: function (selected) {
+          console.log("Valgt adresse: ", selected);
+        },
+      });
+    </script>
+  </body>
+</html>
