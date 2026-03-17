@@ -61,9 +61,11 @@
         background: #f0f0f0;
       }
     </style>
+    <!-- Old DAWA-autocomplete script -->
     <!--
     <script src="https://cdn.dataforsyningen.dk/dawa/assets/dawa-autocomplete2/1.0.2/dawa-autocomplete2.min.js"></script>
     -->
+    <!-- New DAR-search script -->
     <script src="./dawa-autocomplete.iife.js"></script>
   </head>
   <body>
@@ -80,6 +82,18 @@
 
       <!-- Javascript -->
       <script>
+        /* Old Old DAWA-autocomplete script  */
+        /*
+        dawaAutocomplete.dawaAutocomplete(
+          document.getElementById("dawa-autocomplete-input"),
+          {
+            select: function (selected) {
+              console.log("Valgt adresse: " + selected.tekst);
+            }
+          },
+        );
+        */
+        /* New DAR-search script */
         dawaAutocomplete.dawaAutocomplete(
           document.getElementById("dawa-autocomplete-input"),
           {
