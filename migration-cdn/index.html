@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>DAWA-autocomplete to dar-search migration</title>
+    <meta
+      name="description"
+      content="Working example of HTML/CSS/Javascript for dar-search-ui migrated from dawaautocomplete2."
+    />
     <style>
       /* DAWA-autocomplete2 styles*/
       .autocomplete-container {
@@ -76,6 +80,14 @@
         <h2>CDN version</h2>
 
         <!-- HTML -->
+        <!-- old version -->
+        <!--
+        <div class="autocomplete-container">
+          <input type="search" id="dawa-autocomplete-input" />
+        </div>
+        -->
+        <!-- new version -->
+        <label for="dawa-autocomplete-input">Søg efter adresse</label>
         <div class="autocomplete-container">
           <input type="search" id="dawa-autocomplete-input" />
           <!-- Suggestions will appear here -->
