@@ -69,21 +69,22 @@
     <script src="../dawa-autocomplete.iife.js"></script>
   </head>
   <body>
-    <h1>DAWA-autocomplete to dar-search migration test</h1>
+    <main>
+      <h1>DAWA-autocomplete to dar-search migration test</h1>
 
-    <article>
-      <h2>CDN version</h2>
+      <article>
+        <h2>CDN version</h2>
 
-      <!-- HTML -->
-      <div class="autocomplete-container">
-        <input type="search" id="dawa-autocomplete-input" />
-        <!-- Suggestions will appear here -->
-      </div>
+        <!-- HTML -->
+        <div class="autocomplete-container">
+          <input type="search" id="dawa-autocomplete-input" />
+          <!-- Suggestions will appear here -->
+        </div>
 
-      <!-- Javascript -->
-      <script>
-        /* Old Old DAWA-autocomplete script  */
-        /*
+        <!-- Javascript -->
+        <script>
+          /* Old Old DAWA-autocomplete script  */
+          /*
         dawaAutocomplete.dawaAutocomplete(
           document.getElementById("dawa-autocomplete-input"),
           {
@@ -93,17 +94,18 @@
           },
         );
         */
-        /* New DAR-search script */
-        dawaAutocomplete.dawaAutocomplete(
-          document.getElementById("dawa-autocomplete-input"),
-          {
-            select: function (selected) {
-              console.log("Valgt adresse: " + selected.title);
+          /* New DAR-search script */
+          dawaAutocomplete.dawaAutocomplete(
+            document.getElementById("dawa-autocomplete-input"),
+            {
+              select: function (selected) {
+                console.log("Valgt adresse: " + selected.title);
+              },
+              token: "demo-3KCVX33CKZ",
             },
-            token: "demo-3KCVX33CKZ",
-          },
-        );
-      </script>
-    </article>
+          );
+        </script>
+      </article>
+    </main>
   </body>
 </html>
