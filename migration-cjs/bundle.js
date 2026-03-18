@@ -20,7 +20,7 @@ var require_dawa_autocomplete_cjs = __commonJS({
     };
     var b = (r) => f(o({}, "__esModule", { value: true }), r);
     var v = {};
-    E(v, { DarSearchAPI: () => n, DarSearchInput: () => m, dawaAutocomplete: () => c, default: () => y });
+    E(v, { DarSearchAPI: () => n, DarSearchInput: () => h, dawaAutocomplete: () => c, default: () => y });
     module2.exports = b(v);
     var n = class {
       static {
@@ -54,10 +54,10 @@ var require_dawa_autocomplete_cjs = __commonJS({
       }
     };
     function c(r, e) {
-      let t = new h(r, e);
+      let t = new m(r, e);
     }
     a(c, "dawaAutocomplete");
-    var h = class {
+    var m = class {
       static {
         a(this, "DarSearchUI");
       }
@@ -86,7 +86,7 @@ var require_dawa_autocomplete_cjs = __commonJS({
       }
       renderDOMList(e, t) {
         let s = document.createElement("ul");
-        s.className = "dawa-autocomplete-suggestions", s.role = "listbox", t.forEach((i) => {
+        s.className = "dawa-autocomplete-suggestions", s.role = "listbox", s.ariaLabel = "S\xF8geresultater", t.forEach((i) => {
           this.renderDOMListItem(s, i);
         }), e.querySelector("ul")?.remove(), e.append(s);
       }
@@ -124,7 +124,7 @@ var require_dawa_autocomplete_cjs = __commonJS({
         }
       }
     };
-    var m = class extends HTMLElement {
+    var h = class extends HTMLElement {
       static {
         a(this, "DarSearchInput");
       }
@@ -139,14 +139,47 @@ var require_dawa_autocomplete_cjs = __commonJS({
       listElement;
       api;
       token;
+      style = `
+    #${this.elementId} {
+      --highlight-color: lightblue;
+      max-width: 30rem;
+      width: 100%;
+      display: block;
+    }
+    #${this.elementId}-input {
+      anchor-name: --input-${this.elementId};
+      width: 100%;
+      display: block;
+    }
+    #${this.elementId}-list {
+      margin: 0;
+      inset: auto;
+      position-anchor: --input-${this.elementId};
+      position: fixed;
+      left: anchor(left);
+      top: anchor(bottom);
+      right: auto;
+
+      position-try-fallbacks: flip-block;
+      max-height: 50vh;
+      overflow: auto;
+
+      li {
+        cursor: pointer;
+      }
+      li:hover {
+        background-color: var(--highlight-color);
+      }
+    }
+  `;
       constructor() {
         super();
       }
       connectedCallback() {
-        this.style = "max-width: 30rem; width: 100%; display: block;", this.renderList();
+        this.id = this.elementId, this.attachStyle(this.style), this.renderList();
       }
       attributeChangedCallback(e, t, s) {
-        switch (console.log("attr change", e), e) {
+        switch (e) {
           case "token":
             this.token = s, this.api = new n({ token: this.token });
             break;
@@ -190,11 +223,15 @@ var require_dawa_autocomplete_cjs = __commonJS({
           this.errorHandler(new Error(`Failed to fetch items: ${t.message}`));
         }
       }
+      attachStyle() {
+        let e = document.createElement("style");
+        e.textContent = this.style, document.head.append(e);
+      }
       renderInput() {
-        this.inputElement && this.inputElement.remove(), this.inputElement = document.createElement("input"), this.inputElement.id = `${this.elementId}-input`, this.inputElement.type = "search", this.inputElement.role = "combobox", this.inputElement.ariaAutocomplete = "list", this.inputElement.ariaControls = `${this.elementId}-list`, this.inputElement.placeholder = this.placeholder, this.inputElement.disabled = this.disabled, this.inputElement.style = `anchor-name: --adr-input${this.elementId}; width: 100%;`, this.inputElement.addEventListener("input", this.inputHandler.bind(this)), this.inputElement.addEventListener("keyup", this.inputKeyHandler.bind(this)), this.append(this.inputElement);
+        this.inputElement && this.inputElement.remove(), this.inputElement = document.createElement("input"), this.inputElement.id = `${this.elementId}-input`, this.inputElement.type = "search", this.inputElement.role = "combobox", this.inputElement.ariaAutocomplete = "list", this.inputElement.ariaControls = `${this.elementId}-list`, this.inputElement.placeholder = this.placeholder, this.inputElement.disabled = this.disabled, this.inputElement.addEventListener("input", this.inputHandler.bind(this)), this.inputElement.addEventListener("keyup", this.inputKeyHandler.bind(this)), this.append(this.inputElement);
       }
       renderList() {
-        this.listElement = document.createElement("ul"), this.listElement.id = `${this.elementId}-list`, this.listElement.popover = "auto", this.listElement.role = "listbox", this.listElement.style = `position-anchor: --adr-input${this.elementId}; top: anchor(bottom); left: anchor(left); position: fixed; margin: 0`, this.listElement.addEventListener("keyup", this.listKeyHandler.bind(this)), this.append(this.listElement);
+        this.listElement = document.createElement("ul"), this.listElement.id = `${this.elementId}-list`, this.listElement.popover = "auto", this.listElement.role = "listbox", this.listElement.ariaLabel = "S\xF8geresultater", this.listElement.addEventListener("keyup", this.listKeyHandler.bind(this)), this.append(this.listElement);
       }
       renderListItems(e) {
         this.listElement.hidePopover(), this.listElement.innerHTML = "", e.forEach((t) => {
