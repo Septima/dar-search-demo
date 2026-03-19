@@ -1,14 +1,13 @@
 {
-  "name": "migration-cjs",
+  "name": "migration-esm",
   "version": "0.0.1",
   "description": "Test",
   "main": "source.js",
   "scripts": {
-    "build": "esbuild source.js --bundle --outfile=bundle.js --format=cjs",
+    "build": "esbuild source.js --bundle --outfile=bundle.js --format=esm --minify",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "type": "module",
   "dependencies": {
     "dar-search-ui": "file:../dar-search-ui-3.0.2.tgz"
   },
