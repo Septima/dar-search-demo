@@ -154,26 +154,6 @@
           });
         </script>
       </article>
-
-      <article>
-        <h2>vejnavn/postnummer</h2>
-        <label for="demo7">Søg efter adresse</label>
-        <div class="autocomplete-container">
-          <input type="search" id="demo7" />
-        </div>
-        <script type="module">
-          import { dawaAutocomplete } from "./dawa-autocomplete.esm.js";
-          var inputElm = document.getElementById("demo7");
-          var component = dawaAutocomplete(inputElm, {
-            token: "demo-3KCVX33CKZ",
-            vejnavn: "Lindevej",
-            postnummer: "8000",
-            select: function (selected) {
-              console.log("Valgt adresse: ", selected);
-            },
-          });
-        </script>
-      </article>
     </main>
   </body>
 </html>
