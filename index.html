@@ -27,8 +27,8 @@
         font-size: 1.3rem;
       }
     </style>
-    <link rel="stylesheet" href="./dawa-autocomplete.css" />
-    <script src="./dawa-autocomplete.iife.js"></script>
+    <link rel="stylesheet" href="./adressevaelger.css" />
+    <script src="./adressevaelger.iife.js"></script>
   </head>
   <body>
     <main>
@@ -45,15 +45,12 @@
 
         <!-- Javascript -->
         <script>
-          dawaAutocomplete.dawaAutocomplete(
-            document.getElementById("demoCDN"),
-            {
-              token: "demo-3KCVX33CKZ",
-              select: function (selected) {
-                console.log("Selected address:", selected);
-              },
+          adressevaelger.adressevaelger(document.getElementById("demoCDN"), {
+            token: "demo-3KCVX33CKZ",
+            select: function (selected) {
+              console.log("Selected address:", selected);
             },
-          );
+          });
         </script>
       </article>
 
@@ -68,9 +65,9 @@
 
         <!-- Javascript using -->
         <script type="module">
-          import { dawaAutocomplete } from "./dawa-autocomplete.esm.js";
+          import { adressevaelger } from "./adressevaelger.esm.js";
           var inputElm = document.getElementById("demoES");
-          var component = dawaAutocomplete(inputElm, {
+          var component = adressevaelger(inputElm, {
             token: "demo-3KCVX33CKZ",
             select: function (selected) {
               console.log("Valgt adresse: ", selected);
@@ -86,9 +83,9 @@
           <input type="search" id="demo3" />
         </div>
         <script type="module">
-          import { dawaAutocomplete } from "./dawa-autocomplete.esm.js";
+          import { adressevaelger } from "./adressevaelger.esm.js";
           var inputElm = document.getElementById("demo3");
-          var component = dawaAutocomplete(inputElm, {
+          var component = adressevaelger(inputElm, {
             token: "demo-3KCVX33CKZ",
             adgangsadresserOnly: true,
             select: function (selected) {
@@ -105,9 +102,9 @@
           <input type="search" id="demo4" />
         </div>
         <script type="module">
-          import { dawaAutocomplete } from "./dawa-autocomplete.esm.js";
+          import { adressevaelger } from "./adressevaelger.esm.js";
           var inputElm = document.getElementById("demo4");
-          var component = dawaAutocomplete(inputElm, {
+          var component = adressevaelger(inputElm, {
             token: "demo-3KCVX33CKZ",
             kommuneKode: "0580",
             select: function (selected) {
@@ -124,9 +121,9 @@
           <input type="search" id="demo5" />
         </div>
         <script type="module">
-          import { dawaAutocomplete } from "./dawa-autocomplete.esm.js";
+          import { adressevaelger } from "./adressevaelger.esm.js";
           var inputElm = document.getElementById("demo5");
-          var component = dawaAutocomplete(inputElm, {
+          var component = adressevaelger(inputElm, {
             token: "demo-3KCVX33CKZ",
             maksimum: 10,
             select: function (selected) {
@@ -143,9 +140,9 @@
           <input type="search" id="demo6" />
         </div>
         <script type="module">
-          import { dawaAutocomplete } from "./dawa-autocomplete.esm.js";
+          import { adressevaelger } from "./adressevaelger.esm.js";
           var inputElm = document.getElementById("demo6");
-          var component = dawaAutocomplete(inputElm, {
+          var component = adressevaelger(inputElm, {
             token: "demo-3KCVX33CKZ",
             medtagForeloebige: true,
             select: function (selected) {
