@@ -9,6 +9,9 @@
       content="Working example of HTML/CSS/Javascript for dar-search-ui migrated from dawaautocomplete2."
     />
     <style>
+      :root {
+        --color: #39e;
+      }
       body {
         font-family: sans-serif;
         line-height: 1.5;
@@ -17,140 +20,232 @@
         color: black;
         background-color: white;
         gap: 2rem;
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: center;
+        accent-color: var(--color);
       }
       h1,
       h2 {
         color: black;
       }
+      h1 {
+        margin: 3rem 0;
+      }
       h2 {
-        margin: 2rem 0 0;
+        margin: 0;
         font-size: 1.3rem;
+      }
+      .wrapper {
+        display: flex;
+        flex-flow: row wrap;
+        gap: 3rem;
+        max-width: 80vw;
+      }
+      .wrapper > article {
+        flex: 1 0 20rem;
+      }
+      .autocomplete-container {
+        width: 100%;
+        max-width: 100% !important;
+      }
+      input {
+        border: solid 1px #999;
+        border-radius: 0.25rem;
+        padding: 0.5rem;
+        font-size: 1.1rem;
+      }
+      .selected-data {
+        max-width: 80vw;
+        overflow: auto;
+        background-color: #def;
+        padding: 2rem 3rem;
+        margin: 3rem 0;
+        border-radius: 0.5rem;
+      }
+      .selected-data dt {
+        font-weight: 600;
+        margin: 0;
+      }
+      .selected-data dd {
+        margin: 1rem 0 0;
       }
     </style>
     <link rel="stylesheet" href="./adressevaelger.css" />
     <script src="./adressevaelger.iife.js"></script>
+    <script>
+      function displayResponse(data) {
+        document.querySelector(".selected-data dd").innerHTML = prettyPrintJson(
+          JSON.stringify(data),
+        );
+      }
+      function prettyPrintJson(jsonString) {
+        try {
+          const obj = JSON.parse(jsonString);
+          const pretty = JSON.stringify(obj, null, 2);
+          const html = pretty
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(
+              /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
+              function (match) {
+                let cls = "number";
+                if (/^"/.test(match)) {
+                  if (/:$/.test(match)) {
+                    cls = "key";
+                  } else {
+                    cls = "string";
+                  }
+                } else if (/true|false/.test(match)) {
+                  cls = "boolean";
+                } else if (/null/.test(match)) {
+                  cls = "null";
+                }
+                return '<span class="' + cls + '">' + match + "</span>";
+              },
+            )
+            .replace(/\n/g, "<br>")
+            .replace(/ /g, "&nbsp;");
+          return html;
+        } catch (e) {
+          return e.message;
+        }
+      }
+    </script>
   </head>
   <body>
     <main>
       <h1>Adressevælger demo</h1>
 
-      <article>
-        <h2>CDN version</h2>
+      <div class="wrapper">
+        <article>
+          <h2>CDN version</h2>
 
-        <!-- HTML -->
-        <label for="demoCDN">Søg efter adresse</label>
-        <div class="autocomplete-container">
-          <input type="search" id="demoCDN" />
-        </div>
+          <!-- HTML -->
+          <label for="demoCDN">Søg efter adresse</label>
+          <div class="autocomplete-container">
+            <input type="search" id="demoCDN" />
+          </div>
 
-        <!-- Javascript -->
-        <script>
-          adressevaelger.adressevaelger(document.getElementById("demoCDN"), {
-            token: "demo-3KCVX33CKZ",
-            select: function (selected) {
-              console.log("Selected address:", selected);
-            },
-          });
-        </script>
-      </article>
+          <!-- Javascript -->
+          <script>
+            adressevaelger.adressevaelger(document.getElementById("demoCDN"), {
+              token: "demo-3KCVX33CKZ",
+              select: function (selected) {
+                console.log("Selected address:", selected);
+                displayResponse(selected);
+              },
+            });
+          </script>
+        </article>
 
-      <article>
-        <h2>ES module version</h2>
+        <article>
+          <h2>ES module version</h2>
 
-        <!-- HTML -->
-        <label for="demoES">Søg efter adresse</label>
-        <div class="autocomplete-container">
-          <input type="search" id="demoES" />
-        </div>
+          <!-- HTML -->
+          <label for="demoES">Søg efter adresse</label>
+          <div class="autocomplete-container">
+            <input type="search" id="demoES" />
+          </div>
 
-        <!-- Javascript using -->
-        <script type="module">
-          import { adressevaelger } from "./adressevaelger.esm.js";
-          var inputElm = document.getElementById("demoES");
-          var component = adressevaelger(inputElm, {
-            token: "demo-3KCVX33CKZ",
-            select: function (selected) {
-              console.log("Valgt adresse: ", selected);
-            },
-          });
-        </script>
-      </article>
+          <!-- Javascript using -->
+          <script type="module">
+            import { adressevaelger } from "./adressevaelger.esm.js";
+            var inputElm = document.getElementById("demoES");
+            var component = adressevaelger(inputElm, {
+              token: "demo-3KCVX33CKZ",
+              select: function (selected) {
+                console.log("Valgt adresse: ", selected);
+                displayResponse(selected);
+              },
+            });
+          </script>
+        </article>
 
-      <article>
-        <h2>adgangsadresserOnly: true</h2>
-        <label for="demo3">Søg efter adresse</label>
-        <div class="autocomplete-container">
-          <input type="search" id="demo3" />
-        </div>
-        <script type="module">
-          import { adressevaelger } from "./adressevaelger.esm.js";
-          var inputElm = document.getElementById("demo3");
-          var component = adressevaelger(inputElm, {
-            token: "demo-3KCVX33CKZ",
-            adgangsadresserOnly: true,
-            select: function (selected) {
-              console.log("Valgt adresse: ", selected);
-            },
-          });
-        </script>
-      </article>
+        <article>
+          <h2>adgangsadresserOnly: true</h2>
+          <label for="demo3">Søg efter adresse</label>
+          <div class="autocomplete-container">
+            <input type="search" id="demo3" />
+          </div>
+          <script type="module">
+            import { adressevaelger } from "./adressevaelger.esm.js";
+            var inputElm = document.getElementById("demo3");
+            var component = adressevaelger(inputElm, {
+              token: "demo-3KCVX33CKZ",
+              adgangsadresserOnly: true,
+              select: function (selected) {
+                console.log("Valgt adresse: ", selected);
+                displayResponse(selected);
+              },
+            });
+          </script>
+        </article>
 
-      <article>
-        <h2>kommuneKode: 0580</h2>
-        <label for="demo4">Søg efter adresse</label>
-        <div class="autocomplete-container">
-          <input type="search" id="demo4" />
-        </div>
-        <script type="module">
-          import { adressevaelger } from "./adressevaelger.esm.js";
-          var inputElm = document.getElementById("demo4");
-          var component = adressevaelger(inputElm, {
-            token: "demo-3KCVX33CKZ",
-            kommuneKode: "0580",
-            select: function (selected) {
-              console.log("Valgt adresse: ", selected);
-            },
-          });
-        </script>
-      </article>
+        <article>
+          <h2>kommuneKode: 0580</h2>
+          <label for="demo4">Søg efter adresse</label>
+          <div class="autocomplete-container">
+            <input type="search" id="demo4" />
+          </div>
+          <script type="module">
+            import { adressevaelger } from "./adressevaelger.esm.js";
+            var inputElm = document.getElementById("demo4");
+            var component = adressevaelger(inputElm, {
+              token: "demo-3KCVX33CKZ",
+              kommuneKode: "0580",
+              select: function (selected) {
+                console.log("Valgt adresse: ", selected);
+                displayResponse(selected);
+              },
+            });
+          </script>
+        </article>
 
-      <article>
-        <h2>maksimum: 10</h2>
-        <label for="demo5">Søg efter adresse</label>
-        <div class="autocomplete-container">
-          <input type="search" id="demo5" />
-        </div>
-        <script type="module">
-          import { adressevaelger } from "./adressevaelger.esm.js";
-          var inputElm = document.getElementById("demo5");
-          var component = adressevaelger(inputElm, {
-            token: "demo-3KCVX33CKZ",
-            maksimum: 10,
-            select: function (selected) {
-              console.log("Valgt adresse: ", selected);
-            },
-          });
-        </script>
-      </article>
+        <article>
+          <h2>maksimum: 10</h2>
+          <label for="demo5">Søg efter adresse</label>
+          <div class="autocomplete-container">
+            <input type="search" id="demo5" />
+          </div>
+          <script type="module">
+            import { adressevaelger } from "./adressevaelger.esm.js";
+            var inputElm = document.getElementById("demo5");
+            var component = adressevaelger(inputElm, {
+              token: "demo-3KCVX33CKZ",
+              maksimum: 10,
+              select: function (selected) {
+                console.log("Valgt adresse: ", selected);
+                displayResponse(selected);
+              },
+            });
+          </script>
+        </article>
 
-      <article>
-        <h2>medtagForeloebige: true</h2>
-        <label for="demo6">Søg efter adresse</label>
-        <div class="autocomplete-container">
-          <input type="search" id="demo6" />
-        </div>
-        <script type="module">
-          import { adressevaelger } from "./adressevaelger.esm.js";
-          var inputElm = document.getElementById("demo6");
-          var component = adressevaelger(inputElm, {
-            token: "demo-3KCVX33CKZ",
-            medtagForeloebige: true,
-            select: function (selected) {
-              console.log("Valgt adresse: ", selected);
-            },
-          });
-        </script>
-      </article>
+        <article>
+          <h2>medtagForeloebige: true</h2>
+          <label for="demo6">Søg efter adresse</label>
+          <div class="autocomplete-container">
+            <input type="search" id="demo6" />
+          </div>
+          <script type="module">
+            import { adressevaelger } from "./adressevaelger.esm.js";
+            var inputElm = document.getElementById("demo6");
+            var component = adressevaelger(inputElm, {
+              token: "demo-3KCVX33CKZ",
+              medtagForeloebige: true,
+              select: function (selected) {
+                console.log("Valgt adresse: ", selected);
+              },
+            });
+          </script>
+        </article>
+      </div>
+      <dl class="selected-data">
+        <dt>Adressedata</dt>
+        <dd></dd>
+      </dl>
     </main>
   </body>
 </html>
